@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+    <html lang="fr">
+            <head>
+                <meta charset="utf-8" />
+                <title> Mon appli Node</title>
+                <link rel="stylesheet" type="text/css" href="./style.css" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            <body>
+                <!-- intro container-->
+                <div id="intro" style="padding-top: 8em;">
+                    <h1>Le jeu de l'année</h1>
+                    <!-- Slideshow container -->
+
+                    <div class="slideshow-container">
+                        <div class="mySlides1" id="/icon1.png">
+                          <img src="/icon1.png" id="/icon1.png" style="width:100%">
+                        </div>
+                      
+                        <div class="mySlides1" id="/icon2.png">
+                          <img src="/icon2.png" id="/icon2.png" style="width:100%">
+                        </div>
+                      
+                        <div class="mySlides1" id="/icon3.png">
+                          <img src="/icon3.png" id="/icon3.png" style="width:100%">
+                        </div>
+                      
+                        <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+                        <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
+
+                        <div class="d-flex justify-content-center">
+                            <input type="text" id="name" name="name" required
+                                minlength="4" maxlength="8" size="10" placeholder="Prénom" class="disable-select">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-outline-light" onclick="connectToRoom()">Connect</button>
+                        </div>
+
+                      </div>
+
+                </div>
+                <!-- intro container-->
+
+                <!-- lobby container-->
+                    <div class="container" id="lobby">
+                        <div class="row" id="list">
+                            
+                            
+                        </div>
+                    </div>
+                <!-- lobby container-->
+
+
+                <script src="/socket.io/socket.io.js"></script>
+                <script>
+                    var socketID = "";
+                    const socket = io.connect( 'http://localhost:3000/', {
+                        reconnection: true,
+                        reconnectionDelay: 1000,
+                        reconnectionDelayMax : 5000,
+                        reconnectionAttempts: 99999
+                    } );
+
+
+                    socket.on('socketID', function(msg){
+                        socketID = msg;
+                        console.log(socketID)
+                    })
+
+
+                    socket.on('PlayersReady', function(msg){
+                        var list = document.getElementById("list");
+                        while (list.firstChild) {
+                            list.removeChild(list.firstChild);
+                        }
+                        for (let i = 0; i < msg.length; i++) {
+
+                            if(msg[i].id == socketID&& msg[i].ready==false){
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <button id="buttonValidate" type="button" class="btn btn-success" onclick="ready()">Ready</button>
+                                            <h5 id="validate" style="display:none">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            else if(msg[i].id != socketID&& msg[i].ready==false) {
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <h5 id="validate" style="display:none">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            else if(msg[i].ready==true) {
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <h5 id="validate" style="display:block">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            appendHtml(list, html)
+
+                        }
+                    })
+
+                    socket.on('news', function(msg){
+                        var list = document.getElementById("list");
+                        while (list.firstChild) {
+                            list.removeChild(list.firstChild);
+                        }
+
+
+                        for (let i = 0; i < msg.length; i++) {
+
+                            if(msg[i].id == socketID&& msg[i].ready==false){
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <button id="buttonValidate" type="button" class="btn btn-success" onclick="ready()">Ready</button>
+                                            <h5 id="validate" style="display:none">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            else if(msg[i].id != socketID&& msg[i].ready==false) {
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <h5 id="validate" style="display:none">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            else if(msg[i].ready==true) {
+                                html = `<div class="col">
+                                    <div class="card text-white bg-dark mb-3" style="width: 9rem;">
+                                        <img class="card-img-top" src="`+msg[i].icon+`" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">`+msg[i].name+`</h5>
+                                            <h5 id="validate" style="display:block">&#10003;</h5>
+                                        </div>
+                                    </div>
+                                </div>`
+                            }
+                            appendHtml(list, html)
+                        }
+
+
+
+
+                        /*
+                        for (let i = 0; i < msg.length; i++) {
+                            var li = document.createElement("li");
+                            li.id = "player";
+                            li.appendChild(document.createTextNode("player ID : "+msg[i]+" connected"));
+                            ul.appendChild(li);
+                        }
+                        */
+
+                        /*
+                        var ul = document.getElementById("list");
+                        var li = document.createElement("li");
+                        li.appendChild(document.createTextNode("player ID : "+msg+" connected"));
+                        ul.appendChild(li);             */     
+                    });
+
+
+                    socket.on('testRoom', function(msg){
+                        alert(msg);
+                    });
+                    
+
+
+                    var maxImg = 3;
+                    var activeImg = 0;
+
+                    var slideIndex = [1,1];
+                    var slideId = ["mySlides1", "mySlides2"]
+                    showSlides(1, 0);
+                    showSlides(1, 1);
+
+                    function plusSlides(n, no) {
+                        
+                        console.log("n = "+ n);
+                        console.log("active = "+ activeImg)
+                        activeImg += n;
+
+                        if(activeImg >= maxImg){
+                            activeImg = 0;
+                        }
+                        else if (activeImg < 0){
+                            activeImg = maxImg-1;
+                        }
+                        console.log(activeImg);
+
+                    showSlides(slideIndex[no] += n, no);
+                    }
+
+                    function showSlides(n, no) {
+                    var i;
+                    var x = document.getElementsByClassName(slideId[no]);
+                    if (n > x.length) {slideIndex[no] = 1}    
+                    if (n < 1) {slideIndex[no] = x.length}
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.display = "none";  
+                    }
+                    x[slideIndex[no]-1].style.display = "block";  
+                    }
+
+                    function checkIcon(){
+                        switch (activeImg) {
+                            case 0:
+                                return "/icon1.png";                        
+                            case 1:
+                                return "/icon2.png";
+                            case 2:
+                                return "/icon3.png";
+                            default:
+                                break;
+                        }
+                    }
+
+                    function connectToRoom(){
+                        var iconValue = checkIcon()
+                        var nameValue = document.getElementById('name').value
+                        var value = {
+                            icon : iconValue,
+                            name : nameValue
+                        };
+                        if(nameValue.length > 2){
+                            socket.emit('NewPlayer', value)
+                            const intro = document.getElementById("intro");
+                            intro.style.display = 'none';
+                        }
+                    }
+
+                    function appendHtml(el, str) {
+                        var div = document.createElement('div'); //container to append to
+                        div.innerHTML = str;
+                        while (div.children.length > 0) {
+                            el.appendChild(div.children[0]);
+                        }
+                    }
+
+
+                    function ready(){
+                        var button = document.getElementById("buttonValidate");
+                        button.style.display = "none"
+
+                        var validate = document.getElementById("validate");
+                        validate.style.display = "block"
+
+                        socket.emit('Readyplayer', socketID)
+
+                    }
+                </script>
+
+            </body>
+    </html>
