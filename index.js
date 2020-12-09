@@ -4,6 +4,9 @@ const app = express()
 
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+var Request = require("request");
+const { json } = require('express')
+
 
 
 app.use(express.static('public'))
@@ -21,6 +24,7 @@ app.get('/json', function (req, res){
 
 var playerList = [];
 var players = [];
+var reponse = "";
 
 io.on('connection', function (socket) {
 
@@ -29,10 +33,12 @@ io.on('connection', function (socket) {
     console.log(`Connecté au client ${socket.id}`)
 
     socket.on('disconnect', function () {
-
-        players.pop()
+        for (let index = 0; index < players.length; index++) {
+            if (socket.id == players[index].id){
+                players.splice(index, 1);
+            }
+        }
         sendNewsSocket(players);
-        socket.removeAllListeners();
         console.log(`Déconnexion du client ${socket.id}`)
     });
 
@@ -66,17 +72,48 @@ io.on('connection', function (socket) {
         }*/
     })
     socket.on('Readyplayer', function(msg){
+        var allReady = true;
         for (let i = 0; i < players.length; i++) {
+
             if(players[i].id == msg){
                 players[i].ready = true;
                 console.log(players[i].name +" "+ players[i].id +" "+ players[i].ready)
+                io.to('room1').emit('PlayersReady', players)   
 
             }
-            
+            if(players[i].ready == false){
+                console.log("allReady "+allReady);
+                allReady = false;
+            }
         }
-        io.to('room1').emit('PlayersReady', players)
+        console.log("allReady "+allReady);
+        if(allReady == true && players.length > 0){
+            io.to('room1').emit('StartGame', players)
+            getQuestion()
+
+
+        }
     })
 
+
+    socket.on('newQuestion', function(msg){
+        getQuestion()
+    })
+    
+    socket.on('checkReponse', function(msg){
+        for (let i = 0; i < players.length; i++) {
+            console.log(msg)
+            if(players[i].id == msg.socketID){
+                if(reponse == msg.reponse){
+                    players[i].points += 1;
+                    console.log(players[i].points)
+                    io.to('room1').emit('AddPoints', players) 
+                }
+
+            }
+
+        }
+    })
     /*
     if(playerList.length >3){
         io.to(playerList[3]).emit('hey', 'Last player')
@@ -103,4 +140,24 @@ function newsEverySecond(){
 
 function sendNewsSocket(value){
     io.to('room1').emit('news', value)
+}
+
+function getQuestion(){
+    Request.get("https://opentdb.com/api.php?amount=1&difficulty=easy", (error, response, body) => {
+        if(error) {
+            return console.dir(error);
+        }
+        var jsonBody = JSON.parse(body)
+
+        if(jsonBody.response_code ==0){
+            reponse = jsonBody.results[0].correct_answer
+            console.log(reponse)
+            io.to('room1').emit('getquestionjson', jsonBody)
+            //console.log(jsonBody)
+        }
+        else{
+            console.log("error question")
+        }
+
+    });
 }

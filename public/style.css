@@ -2,7 +2,7 @@ html, body {
     background-color: #443A88!important;
 }
 
-h1, li, p, label{
+h1, h2, li, p, label{
     color: rgb(255, 255, 255);
     text-align: center!important;
     margin-top: 1em!important;
@@ -23,6 +23,18 @@ input {
 
 }
 
+
+.position-top-right{
+    position: absolute;
+    top: 10px; right: 10px;
+}
+
+.position-top-left{
+    position: absolute;
+    top: 10px; left: 10px;
+}
+
+
 .disable-select {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -35,6 +47,13 @@ input {
 .card-title{
     color:white;
 }
+
+#progressbar {
+    margin: 20px;
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
 
 #validate {
     color: green;

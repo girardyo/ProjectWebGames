@@ -6,9 +6,13 @@
                 <link rel="stylesheet" type="text/css" href="./style.css" />
                 <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+
+                </script>
             </head>
             <body>
+
+<div id="container"></div>
                 <!-- intro container-->
                 <div id="intro" style="padding-top: 8em;">
                     <h1>Le jeu de l'année</h1>
@@ -26,6 +30,59 @@
                         <div class="mySlides1" id="/icon3.png">
                           <img src="/icon3.png" id="/icon3.png" style="width:100%">
                         </div>
+         
+                        <div class="mySlides1" id="/icon4.png">
+                            <img src="/icon4.png" id="/icon4.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon5.png">
+                            <img src="/icon5.png" id="/icon5.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon6.png">
+                            <img src="/icon6.png" id="/icon6.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon7.png">
+                            <img src="/icon7.png" id="/icon7.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon8.png">
+                            <img src="/icon8.png" id="/icon8.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon9.png">
+                            <img src="/icon9.png" id="/icon9.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon10.png">
+                            <img src="/icon10.png" id="/icon10.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon11.png">
+                            <img src="/icon11.png" id="/icon11.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon12.png">
+                            <img src="/icon12.png" id="/icon12.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon13.png">
+                            <img src="/icon13.png" id="/icon13.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon14.png">
+                            <img src="/icon14.png" id="/icon14.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon15.png">
+                            <img src="/icon15.png" id="/icon15.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon16.png">
+                            <img src="/icon16.png" id="/icon16.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon17.png">
+                            <img src="/icon17.png" id="/icon17.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon18.png">
+                            <img src="/icon18.png" id="/icon18.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon19.png">
+                            <img src="/icon19.png" id="/icon19.png" style="width:100%">
+                          </div>
+                          <div class="mySlides1" id="/icon20.png">
+                            <img src="/icon20.png" id="/icon20.png" style="width:100%">
+                          </div>
+
                       
                         <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
@@ -44,7 +101,7 @@
                 <!-- intro container-->
 
                 <!-- lobby container-->
-                    <div class="container" id="lobby">
+                    <div id="lobby" class="container" id="lobby">
                         <div class="row" id="list">
                             
                             
@@ -52,9 +109,48 @@
                     </div>
                 <!-- lobby container-->
 
+                <!-- game container-->
+                <div id="leaderboard" class="position-top-right" style="display: none;">
+                    <div class="card text-white bg-dark mb-3 ">
+                        <div class="card-body">
+                            <h5 class="card-title"  style="list-style-type: none;">Classement :</h5>
+                            <ol id="listScore" class="align-items: center;">
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="iconPlayer" class="position-top-left" style="display: none;">
+
+                </div>
+
+
+                <div class="container" id="question" style="display: none; padding-top: 5em;">
+                    <div class="progress" style="width: 80%; margin: auto;">
+                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="0" style="width: 100%;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"> 
+                            <h2 style="font-weight: bold;" id="theme"></h2>
+                            <h1 style="padding-top: 2em;" id="questions"></h1>
+                            <div class="row" style="padding-top: 4em;" id="reponses">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <!-- game container-->
+
 
                 <script src="/socket.io/socket.io.js"></script>
                 <script>
+                    var myReponseStr ="";
                     var socketID = "";
                     const socket = io.connect( 'http://localhost:3000/', {
                         reconnection: true,
@@ -182,13 +278,167 @@
                     });
 
 
-                    socket.on('testRoom', function(msg){
-                        alert(msg);
+                    socket.on('getquestionjson', function(msg){
+                        var questionArray = msg.results[0].incorrect_answers
+                        questionArray.push(msg.results[0].correct_answer)
+    
+                        questionArray = shuffle(questionArray)
+
+                        var reponses = document.getElementById("reponses");
+                        var questions = document.getElementById("questions");
+                        var theme = document.getElementById("theme")
+                        question = String(msg.results[0].question).replace('&quot;', `"`).replace('&amp;',`&`).replace('&lt;', `<`).replace('&gt;', `>`).replace(`&#039;`, "'").replace('&quot;', `"`).replace('&#201;', "é").replace(`&#039;`, "'").replace(`&#039;`, "'").replace('&quot;', `"`)
+                        questions.textContent = question;
+                        theme.textContent = msg.results[0].category;
+
+
+                        while (reponses.firstChild) {
+                            reponses.removeChild(reponses.firstChild);
+                        }
+
+                        htmlQ = `<h2 style="font-weight: bold;">`+ msg.results[0].category +`</h2>
+                                <h1 style="padding-top: 3em;">`+ msg.results[0].question +`</h1>`
+
+
+                        for (let index = 0; index < questionArray.length; index++) {
+                            if(questionArray[index] == msg.results[0].correct_answer){
+                                htmlR = `<div class="col"> 
+                                    <button id="reponse" type="button" class="btn btn-outline-light btn-lg" onclick="sendReponse(this.id)">`+questionArray[index]+`</button>
+                                </div>` 
+                            }else{
+                                htmlR = `<div class="col"> 
+                                    <button id="reponse`+index+`"type="button" class="btn btn-outline-light btn-lg" onclick="sendReponse(this.id)">`+questionArray[index]+`</button>
+                                </div>` 
+                            }
+     
+                            appendHtml(reponses, htmlR)
+                        }
+
+                        var $progress = $('.progress');
+                        var $progressBar = $('.progress-bar');
+
+                    
+                            setTimeout(function() {
+                                $progressBar.css('width', '90%');
+                                setTimeout(function() {
+                                    $progressBar.css('width', '80%');
+                                    setTimeout(function() {
+                                        $progressBar.css('width', '70%');
+                                            setTimeout(function() {
+                                                $progressBar.css('width', '60%');
+                                                setTimeout(function() {
+                                                    $progressBar.css('width', '50%');
+                                                    setTimeout(function() {
+                                                        $progressBar.css('width', '40%');
+                                                        setTimeout(function() {
+                                                            $progressBar.css('width', '30%');
+                                                            setTimeout(function() {
+                                                                $progressBar.css('width', '20%');
+                                                                setTimeout(function() {
+                                                                    $progressBar.css('width', '10%');
+                                                                    setTimeout(function() {
+                                                                        $progressBar.css('width', '0%');
+                                                                        setTimeout(function() {
+                                                                            animReponse();
+                                                                        }, 1500);
+                                                                    }, 1500);
+                                                                }, 1500);
+                                                            }, 1500);
+                                                        }, 1500);
+                                                    }, 1500);
+                                                }, 1500);
+                                        }, 1500);
+                                    }, 1500); // WAIT 5 milliseconds
+                                }, 1500); // WAIT 2 seconds
+                            }, 1500); // WAIT 1 seconds
+        
+
                     });
+
+
+                    
+                    socket.on('StartGame', function(msg){
+                        var lobby = document.getElementById("lobby");
+                        lobby.style.display = "none"
+                        var leaderboard = document.getElementById("leaderboard");
+                        leaderboard.style.display = "block"
+                        var iconPlayer = document.getElementById("iconPlayer");
+                        iconPlayer.style.display = "block"
+                        var img = document.createElement("img");
+                        for (let index = 0; index < msg.length; index++) {
+                            if(msg[index].id == socketID){
+                                img.src = msg[index].icon;
+                                iconPlayer.appendChild(img)
+                                img.style = "width:30%";
+
+                            }                       
+                        }
+
+
+                        
+                        var ul = document.getElementById("listScore");
+                        var question = document.getElementById("question");
+                        question.style.display = "block"
+
+                        while (ul.firstChild) {
+                            ul.removeChild(ul.firstChild);
+                        }
+                        console.log(msg);
+                        msg = msg.sort((a, b) => b.points - a.points);
+                        console.log(msg.length);
+
+                        for (let index = 0; index < msg.length; index++) {
+                            var li = document.createElement("li");
+                            var img = document.createElement("img");
+                            var span = document.createElement("span");
+
+
+                            img.src = "/icon14.png";
+                            img.style = "width:5%";
+
+                            span.className ="badge badge-pill badge-success"
+                            span.textContent =msg[index].points
+                           // li.appendChild(img)
+                            li.appendChild(document.createTextNode(msg[index].name+" : "));
+                            li.appendChild(span)
+                            ul.appendChild(li);                            
+                        }  
+
+                    });
+
+                    socket.on('AddPoints', function(msg){
+                        console.log(msg)
+                        var leaderboard = document.getElementById("leaderboard");
+                        var ul = document.getElementById("listScore");
+
+                        while (ul.firstChild) {
+                            ul.removeChild(ul.firstChild);
+                        }
+                        console.log(msg);
+                        msg = msg.sort((a, b) => b.points - a.points);
+                        console.log(msg.length);
+
+                        for (let index = 0; index < msg.length; index++) {
+                            var li = document.createElement("li");
+                            var img = document.createElement("img");
+                            var span = document.createElement("span");
+
+
+                            img.src = "/icon14.png";
+                            img.style = "width:5%";
+
+                            span.className ="badge badge-pill badge-success"
+                            span.textContent =msg[index].points
+                           // li.appendChild(img)
+                            li.appendChild(document.createTextNode(msg[index].name+" : "));
+                            li.appendChild(span)
+                            ul.appendChild(li);                            
+                        }  
+                    })
                     
 
 
-                    var maxImg = 3;
+                    var maxImg = 20;
                     var activeImg = 0;
 
                     var slideIndex = [1,1];
@@ -232,9 +482,113 @@
                                 return "/icon2.png";
                             case 2:
                                 return "/icon3.png";
+                            case 3:
+                                return "/icon4.png";                        
+                            case 4:
+                                return "/icon5.png";
+                            case 5:
+                                return "/icon6.png";
+                            case 6:
+                                return "/icon7.png";                        
+                            case 7:
+                                return "/icon8.png";
+                            case 8:
+                                return "/icon9.png";
+                            case 9:
+                                return "/icon10.png";                        
+                            case 10:
+                                return "/icon11.png";
+                            case 11:
+                                return "/icon12.png";
+                            case 12:
+                                return "/icon13.png";                        
+                            case 13:
+                                return "/icon14.png";
+                            case 14:
+                                return "/icon15.png";
+                            case 15:
+                                return "/icon16.png";                        
+                            case 16:
+                                return "/icon17.png";
+                            case 17:
+                                return "/icon18.png";
+                            case 18:
+                                return "/icon19.png";                        
+                            case 19:
+                                return "/icon20.png";
+                            
                             default:
                                 break;
                         }
+                    }
+
+
+                    function sleep (time) {
+                        return new Promise((resolve) => setTimeout(resolve, time));
+                    }
+
+
+                    function sendReponse(id){
+                        var button = document.getElementsByClassName('btn')
+                        for (let index = 0; index < button.length; index++) {
+                            button[index].disabled =true
+                        }
+
+                        var buttonClicked = document.getElementById(id)
+                        myReponseStr = buttonClicked.innerHTML
+                        buttonClicked.classList.remove("btn-outline-light")
+                        buttonClicked.classList.add("btn-light")
+                    }
+
+                    function animReponse(){
+                        var reponse = document.getElementById('reponse')
+                        var button = document.getElementsByClassName('btn')
+
+                        for (let index = 0; index < button.length; index++) {
+                            button[index].disabled =true
+                            
+                        }
+                        if(reponse.classList.contains("btn-light")){
+                            reponse.classList.remove("btn-light")
+                        }
+                        else{
+                            reponse.classList.remove("btn-outline-light")
+                        }
+                        reponse.classList.add("btn-outline-success")
+                        console.log("anim1");
+
+                        sleep(500).then(() => {
+                            reponse.classList.remove("btn-outline-success")
+                            reponse.classList.add("btn-outline-light")
+                            console.log("anim2");
+
+
+                        });
+                        sleep(1000).then(() => {
+                            reponse.classList.remove("btn-outline-light")
+                            reponse.classList.add("btn-outline-success")
+                            console.log("anim3");
+
+
+                        });
+                        sleep(1500).then(() => {
+                            reponse.classList.remove("btn-outline-success")
+                            reponse.classList.add("btn-outline-light")
+                            console.log("anim4");
+
+                        });
+                        sleep(2000).then(() => {
+                            reponse.classList.remove("btn-outline-light")
+                            reponse.classList.add("btn-success")
+                            console.log("anim4");
+                        });
+                        sleep(4000).then(()=>{
+                            var $progressBar = $('.progress-bar');
+                            $progressBar.css('width', '100%');
+                            socket.emit("checkReponse", {"socketID":socketID, "reponse":myReponseStr});
+                            socket.emit("newQuestion");
+                        });
+
                     }
 
                     function connectToRoom(){
@@ -270,6 +624,20 @@
                         socket.emit('Readyplayer', socketID)
 
                     }
+
+                    function shuffle(a) {
+                        var j, x, i;
+                        for (i = a.length - 1; i > 0; i--) {
+                            j = Math.floor(Math.random() * (i + 1));
+                            x = a[i];
+                            a[i] = a[j];
+                            a[j] = x;
+                        }
+                        return a;
+                    }
+
+
+                
                 </script>
 
             </body>
