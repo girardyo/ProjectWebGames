@@ -24,7 +24,10 @@ app.get('/json', function (req, res){
 
 var playerList = [];
 var players = [];
+var playersIngame = 0;
 var reponse = "";
+var nombreR= 0;
+var gameStarted = false;
 
 io.on('connection', function (socket) {
 
@@ -36,9 +39,13 @@ io.on('connection', function (socket) {
         for (let index = 0; index < players.length; index++) {
             if (socket.id == players[index].id){
                 players.splice(index, 1);
+                playersIngame -=1
             }
         }
         sendNewsSocket(players);
+        if(playersIngame ==0){
+            gameStarted = false
+        }
         console.log(`Déconnexion du client ${socket.id}`)
     });
 
@@ -73,6 +80,7 @@ io.on('connection', function (socket) {
     })
     socket.on('Readyplayer', function(msg){
         var allReady = true;
+        playersIngame +=1;
         for (let i = 0; i < players.length; i++) {
 
             if(players[i].id == msg){
@@ -89,20 +97,28 @@ io.on('connection', function (socket) {
         console.log("allReady "+allReady);
         if(allReady == true && players.length > 0){
             io.to('room1').emit('StartGame', players)
-            getQuestion()
-
-
+            if(gameStarted == false){
+                getQuestion()
+                gameStarted = true;
+            }
+            else{
+                nombreR +=1
+            }
         }
     })
 
 
     socket.on('newQuestion', function(msg){
-        getQuestion()
+        nombreR +=1;
+        console.log(nombreR +" "+ players.length)
+        if(nombreR == players.length){
+            getQuestion()
+            nombreR =0
+        }
     })
     
     socket.on('checkReponse', function(msg){
         for (let i = 0; i < players.length; i++) {
-            console.log(msg)
             if(players[i].id == msg.socketID){
                 if(reponse == msg.reponse){
                     players[i].points += 1;

@@ -152,7 +152,7 @@
                 <script>
                     var myReponseStr ="";
                     var socketID = "";
-                    const socket = io.connect( 'radiant-chamber-84344.herokuapp.com', {
+                    const socket = io.connect( 'http://localhost:3000/', {
                         reconnection: true,
                         reconnectionDelay: 1000,
                         reconnectionDelayMax : 5000,
@@ -364,14 +364,15 @@
                         leaderboard.style.display = "block"
                         var iconPlayer = document.getElementById("iconPlayer");
                         iconPlayer.style.display = "block"
-                        var img = document.createElement("img");
-                        for (let index = 0; index < msg.length; index++) {
-                            if(msg[index].id == socketID){
-                                img.src = msg[index].icon;
-                                iconPlayer.appendChild(img)
-                                img.style = "width:30%";
-
-                            }                       
+                        if(iconPlayer.childElementCount == 0){
+                            var img = document.createElement("img");
+                            for (let index = 0; index < msg.length; index++) {
+                                    if(msg[index].id == socketID){
+                                        img.src = msg[index].icon;
+                                        iconPlayer.appendChild(img)
+                                        img.style = "width:30%";
+                                    }                       
+                            }
                         }
 
 
