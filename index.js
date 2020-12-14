@@ -120,7 +120,7 @@ io.on('connection', function (socket) {
     })
     
     socket.on('checkReponse', function(msg){
-        var maxPoints = 9 
+        var maxPoints = 1 
         for (let i = 0; i < players.length; i++) {
             if(players[i].id == msg.socketID){
                 if(reponse == msg.reponse){

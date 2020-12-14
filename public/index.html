@@ -163,7 +163,7 @@
                     var maxPoints = 0;
                     var myReponseStr ="";
                     var socketID = "";
-                    const socket = io.connect( 'https://radiant-chamber-84344.herokuapp.com/', {
+                    const socket = io.connect( 'http://localhost:3000/', {
                         reconnection: true,
                         reconnectionDelay: 1000,
                         reconnectionDelayMax : 5000,
@@ -654,6 +654,9 @@
                     }
 
                     function showTableScore(players){
+
+                        players = players.sort((a, b) => b.points - a.points);
+
                         console.log('showleaderboard')
 
                         var gameContainer = document.getElementById("gameContainer")
