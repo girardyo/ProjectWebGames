@@ -120,7 +120,7 @@ io.on('connection', function (socket) {
     })
     
     socket.on('checkReponse', function(msg){
-        var maxPoints = 0 
+        var maxPoints = 9 
         for (let i = 0; i < players.length; i++) {
             if(players[i].id == msg.socketID){
                 if(reponse == msg.reponse){
@@ -175,21 +175,25 @@ function sendNewsSocket(value){
 }
 
 function getQuestion(){
-    Request.get("https://opentdb.com/api.php?amount=1&difficulty=easy", (error, response, body) => {
-        if(error) {
-            return console.dir(error);
-        }
-        var jsonBody = JSON.parse(body)
 
-        if(jsonBody.response_code ==0){
-            reponse = jsonBody.results[0].correct_answer
-            console.log(reponse)
-            io.to('room1').emit('getquestionjson', jsonBody)
-            //console.log(jsonBody)
-        }
-        else{
-            console.log("error question")
-        }
+    if(showScore ==false){
 
-    });
+        Request.get("https://opentdb.com/api.php?amount=1&difficulty=easy", (error, response, body) => {
+            if(error) {
+                return console.dir(error);
+            }
+            var jsonBody = JSON.parse(body)
+
+            if(jsonBody.response_code ==0){
+                reponse = jsonBody.results[0].correct_answer
+                console.log(reponse)
+                io.to('room1').emit('getquestionjson', jsonBody)
+                //console.log(jsonBody)
+            }
+            else{
+                console.log("error question")
+            }
+
+        });
+    }
 }
