@@ -110,49 +110,60 @@
                 <!-- lobby container-->
 
                 <!-- game container-->
-                <div id="leaderboard" class="position-top-right" style="display: none;">
-                    <div class="card text-white bg-dark mb-3 ">
-                        <div class="card-body">
-                            <h5 class="card-title"  style="list-style-type: none;">Classement :</h5>
-                            <ol id="listScore" class="align-items: center;">
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="iconPlayer" class="position-top-left" style="display: none;">
-
-                </div>
-
-
-                <div class="container" id="question" style="display: none; padding-top: 5em;">
-                    <div class="progress" style="width: 80%; margin: auto;">
-                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="0" style="width: 100%;"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"> 
-                            <h2 style="font-weight: bold;" id="theme"></h2>
-                            <h1 style="padding-top: 2em;" id="questions"></h1>
-                            <div class="row" style="padding-top: 4em;" id="reponses">
-
+                <div id="gameContainer">
+                    <div id="leaderboard" class="position-top-right" style="display: none;">
+                        <div class="card text-white bg-dark mb-3 ">
+                            <div class="card-body">
+                                <h5 class="card-title"  style="list-style-type: none;">Classement :</h5>
+                                <ol id="listScore" class="align-items: center;">
+                                </ol>
                             </div>
                         </div>
                     </div>
 
+                    <div id="iconPlayer" class="position-top-left" style="display: none;">
 
+                    </div>
+
+
+                    <div class="container" id="question" style="display: none; padding-top: 5em;">
+                        <div class="progress" style="width: 80%; margin: auto;">
+                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="100" aria-valuemin="100" aria-valuemax="0" style="width: 100%;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"> 
+                                <h2 style="font-weight: bold;" id="theme"></h2>
+                                <h1 style="padding-top: 2em;" id="questions"></h1>
+                                <div class="row" style="padding-top: 4em;" id="reponses">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-
-
-
                 <!-- game container-->
+
+
+
+                <!-- table Score Container-->
+                <div class="container" id="tableScoreContainer"style="display: none; margin-top: 8em;">
+                    <table id="myTable" class="table table-striped table-dark" style="table-layout: fixed;" >
+                        <tbody id="tableBody">
+                            <tr>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--table score container-->
 
 
                 <script src="/socket.io/socket.io.js"></script>
                 <script>
+                    var maxPoints = 0;
                     var myReponseStr ="";
                     var socketID = "";
-                    const socket = io.connect( 'https://radiant-chamber-84344.herokuapp.com/', {
+                    const socket = io.connect( 'http://localhost:3000/', {
                         reconnection: true,
                         reconnectionDelay: 1000,
                         reconnectionDelayMax : 5000,
@@ -394,12 +405,13 @@
                             var span = document.createElement("span");
 
 
-                            img.src = "/icon14.png";
-                            img.style = "width:5%";
+                            img.className = "img-fluid";
+                            img.src = msg[index].icon;
+                            img.style = "width:10%";
 
                             span.className ="badge badge-pill badge-success"
                             span.textContent =msg[index].points
-                           // li.appendChild(img)
+                            //li.appendChild(img)
                             li.appendChild(document.createTextNode(msg[index].name+" : "));
                             li.appendChild(span)
                             ul.appendChild(li);                            
@@ -408,6 +420,7 @@
                     });
 
                     socket.on('AddPoints', function(msg){
+                        var showScore =false;
                         console.log(msg)
                         var leaderboard = document.getElementById("leaderboard");
                         var ul = document.getElementById("listScore");
@@ -424,19 +437,22 @@
                             var img = document.createElement("img");
                             var span = document.createElement("span");
 
-
-                            img.src = "/icon14.png";
-                            img.style = "width:5%";
+                            img.className = "img-fluid";
+                            img.src = msg[index].icon;
+                            img.style = "width:20%";
 
                             span.className ="badge badge-pill badge-success"
                             span.textContent =msg[index].points
-                           // li.appendChild(img)
+                            //li.appendChild(img)
                             li.appendChild(document.createTextNode(msg[index].name+" : "));
                             li.appendChild(span)
-                            ul.appendChild(li);                            
-                        }  
+                            ul.appendChild(li);         
+                        }
                     })
                     
+                    socket.on('ShowLeaderboard', function(msg){
+                        showTableScore(msg)
+                    })
 
 
                     var maxImg = 20;
@@ -636,6 +652,37 @@
                         }
                         return a;
                     }
+
+                    function showTableScore(players){
+                        console.log('showleaderboard')
+
+                        var gameContainer = document.getElementById("gameContainer")
+                        gameContainer.style.display = "none"
+
+                        var tableScoreContainer = document.getElementById("tableScoreContainer")
+                        tableScoreContainer.style.display = "table"
+
+                        var myTable = document.getElementById("myTable")   
+
+                        while (myTable.firstChild) {
+                            myTable.removeChild(myTable.firstChild);
+                        }
+
+
+                        for (let index = 0; index < players.length; index++) {
+                            var row = myTable.insertRow(-1);
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            var cell4 = row.insertCell(3);
+                            cell1.innerHTML = `<th scope="row">`+(index+1)+`</th>`;
+                            cell2.innerHTML = `<td> <img class="img-fluid" src="`+players[index].icon+`" id="`+players[index].icon+`" style="width:20%"> </td>`;
+                            cell3.innerHTML = ` <td>`+players[index].name+`</td>`;
+                            cell4.innerHTML = `<td>`+players[index].points+` points</td>`;
+
+                        }
+                    }
+
 
 
                 

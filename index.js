@@ -28,6 +28,8 @@ var playersIngame = 0;
 var reponse = "";
 var nombreR= 0;
 var gameStarted = false;
+var showScore =false
+
 
 io.on('connection', function (socket) {
 
@@ -118,6 +120,7 @@ io.on('connection', function (socket) {
     })
     
     socket.on('checkReponse', function(msg){
+        var maxPoints = 0 
         for (let i = 0; i < players.length; i++) {
             if(players[i].id == msg.socketID){
                 if(reponse == msg.reponse){
@@ -127,8 +130,21 @@ io.on('connection', function (socket) {
                 }
 
             }
+            if(players[i].points > maxPoints)   {
+                showScore = true
+                console.log('allotrue')
 
+            }           
+
+        }  
+        if(showScore==true){
+            for (let index = 0; index < players.length; index++) {
+                    console.log("showleaderboard")
+                    io.to(players[index].id).emit('ShowLeaderboard', players)
+                    
+            }
         }
+        
     })
     /*
     if(playerList.length >3){
